@@ -1,0 +1,24 @@
+{
+	"name": "xelopsys",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index.js",
+		"start": "node index.js",
+		"fmt": "prettier --check --write \"**/*.js\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.0",
+		"mongoose": "^6.2.8",
+		"mongoose-unique-validator": "^3.0.0",
+		"telegraf": "^3.38.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15",
+		"prettier": "^2.6.0"
+	}
+}
