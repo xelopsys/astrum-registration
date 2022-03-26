@@ -6,7 +6,6 @@ const { leave } = Stage;
 // const { composer, middleware } = require('../bot.js')
 // const bot = new telegraf(data.token);
 
-
 const isStudent = new Scene("isStudent");
 
 // getName.on('contact', async (ctx) => {
@@ -21,114 +20,107 @@ const isStudent = new Scene("isStudent");
 //         await ctx.replyWithHTML('Please send me ur FIO ENG')
 //     }
 // })
-
-isStudent.hears('YES-RU', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['ru-edu', 'ru-sale'],
-                ['ru-other', 'ru-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-isStudent.hears('NO-RU', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['ru-edu', 'ru-sale'],
-                ['ru-other', 'ru-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-
+// 🗣
+isStudent.hears("да", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("что вы ищете?", {
+    reply_markup: {
+      keyboard: [
+        ["🖥об образовании", "💸об оплате"],
+        ["другое", "предложение и жалобы"],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
+isStudent.hears("нет", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("что вас интересует?", {
+    reply_markup: {
+      keyboard: [["🖥об образовании", "💸об оплате курсов"], ["другое"]],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
 
 //******************************UZ */
-isStudent.hears('YES-UZ', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['uz-edu', 'uz-sale'],
-                ['uz-other', 'uz-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-isStudent.hears('NO-UZ', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['uz-edu', 'uz-sale'],
-                ['uz-other', 'uz-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-
+isStudent.hears("ha", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("nimani izlayapsiz?", {
+    reply_markup: {
+      keyboard: [
+        ["🖥O`qish haqida", "💸to`lovlar haqida"],
+        ["boshqa", "taklif va shikoyat"],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
+isStudent.hears("yo'q", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("nima sizni qiziqtiryapti?", {
+    reply_markup: {
+      keyboard: [
+        ["🖥o`quv kurslari haqida"],
+        ["💸o`quv kurslari to`lovi haqida"],
+        ["boshqa"],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
 
 //******************************EN */
 
-
-
-isStudent.hears('YES-EN', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['en-edu', 'en-sale'],
-                ['en-other', 'en-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-isStudent.hears('NO-EN', async (ctx) => {
-    ctx.session.isStudent = ctx.message.text;
-    console.log(ctx.session.isStudent)
-    await ctx.reply('what you want to ask', {
-        reply_markup: {
-            keyboard: [
-                ['en-edu', 'en-sale'],
-                ['en-other', 'en-offer-compl']
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true,
-        },
-    })
-    await ctx.scene.leave("isStudent");
-    await ctx.scene.enter("getQuestionType");
-})
-
-
+isStudent.hears("yes", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("what you are seeking for?", {
+    reply_markup: {
+      keyboard: [
+        ["🖥about education", "💸about payments"],
+        ["other", "offer and complains"],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
+isStudent.hears("no", async (ctx) => {
+  ctx.session.isStudent = ctx.message.text;
+  console.log(ctx.session.isStudent);
+  await ctx.reply("what you are interested in?", {
+    reply_markup: {
+      keyboard: [
+        ["🖥about education courses"],
+        ["💸about education courses payments"],
+        ["other"],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    },
+  });
+  await ctx.scene.leave("isStudent");
+  await ctx.scene.enter("getQuestionType");
+});
 
 // isStudent.on("text", async (ctx) => {
 //     // if (ctx.message.text === "◀️ Назад") {
@@ -157,9 +149,6 @@ isStudent.hears('NO-EN', async (ctx) => {
 //     }
 //     // console.log(ctx.session.number)
 
-
 // });
 
-
-
-module.exports = isStudent
+module.exports = isStudent;
