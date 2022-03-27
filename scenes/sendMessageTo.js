@@ -13,7 +13,7 @@ const sendMessageTo = new Scene("sendMessageTo");
 
 // let user_id;
 sendMessageTo.on("text", async (ctx) => {
-  console.log(ctx.message.id);
+  // console.log(ctx.message.id);
 
   ctx.session.send = ctx.message.text;
   ctx.session.userId = ctx.from.id;
@@ -33,13 +33,13 @@ sendMessageTo.on("text", async (ctx) => {
           .sendMessage(
             data.education,
             `ID: ${ctx.session.user_id}\n` +
-              `Для кого: ${ctx.session.questionType}\n` +
-              `Выбранный язык: ${ctx.session.lang}\n` +
-              `Имя: ${ctx.session.name}\n` +
-              `Год рождения: ${ctx.session.year}\n` +
-              `Телефонный номер: ${ctx.session.number}\n` +
-              `Является студентом Astrum: ${ctx.session.isStudent}\n` +
-              `Вопрос пользователя: ${ctx.session.question}\n`,
+            `Для кого: ${ctx.session.questionType}\n` +
+            `Выбранный язык: ${ctx.session.lang}\n` +
+            `Имя: ${ctx.session.name}\n` +
+            `Год рождения: ${ctx.session.year}\n` +
+            `Телефонный номер: ${ctx.session.number}\n` +
+            `Является студентом Astrum: ${ctx.session.isStudent}\n` +
+            `Вопрос пользователя: ${ctx.session.question}\n`,
             {
               parse_mode: "HTML",
               reply_markup: {
@@ -73,13 +73,13 @@ sendMessageTo.on("text", async (ctx) => {
         .sendMessage(
           data.sales,
           `ID: ${ctx.session.user_id}\n` +
-            `Для кого: ${ctx.session.questionType}\n` +
-            `Выбранный язык: ${ctx.session.lang}\n` +
-            `Имя: ${ctx.session.name}\n` +
-            `Год рождения: ${ctx.session.year}\n` +
-            `Телефонный номер: ${ctx.session.number}\n` +
-            `Является студентом Astrum: ${ctx.session.isStudent}\n` +
-            `Вопрос пользователя: ${ctx.session.question}\n`,
+          `Для кого: ${ctx.session.questionType}\n` +
+          `Выбранный язык: ${ctx.session.lang}\n` +
+          `Имя: ${ctx.session.name}\n` +
+          `Год рождения: ${ctx.session.year}\n` +
+          `Телефонный номер: ${ctx.session.number}\n` +
+          `Является студентом Astrum: ${ctx.session.isStudent}\n` +
+          `Вопрос пользователя: ${ctx.session.question}\n`,
           {
             parse_mode: "HTML",
             reply_markup: {
@@ -112,13 +112,13 @@ sendMessageTo.on("text", async (ctx) => {
         .sendMessage(
           data.admin,
           `ID: ${ctx.session.user_id}\n` +
-            `Для кого: ${ctx.session.questionType}\n` +
-            `Выбранный язык: ${ctx.session.lang}\n` +
-            `Имя: ${ctx.session.name}\n` +
-            `Год рождения: ${ctx.session.year}\n` +
-            `Телефонный номер: ${ctx.session.number}\n` +
-            `Является студентом Astrum: ${ctx.session.isStudent}\n` +
-            `Вопрос пользователя: ${ctx.session.question}\n`,
+          `Для кого: ${ctx.session.questionType}\n` +
+          `Выбранный язык: ${ctx.session.lang}\n` +
+          `Имя: ${ctx.session.name}\n` +
+          `Год рождения: ${ctx.session.year}\n` +
+          `Телефонный номер: ${ctx.session.number}\n` +
+          `Является студентом Astrum: ${ctx.session.isStudent}\n` +
+          `Вопрос пользователя: ${ctx.session.question}\n`,
           {
             parse_mode: "HTML",
             reply_markup: {

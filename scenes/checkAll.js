@@ -47,16 +47,7 @@ const main = async () => {
     ctx.session.back = ctx.message.text;
 
     //english****
-    try {
-      await UserTg.findOneAndUpdate({
-        user_id: ctx.session.user_id,
-        questionType: ctx.session.questionType,
-        question: ctx.session.question,
-      });
-      console.log("updated");
-    } catch (err) {
-      console.log(err.message);
-    }
+
 
     if (ctx.session.lang === "🇬🇧English") {
       if (ctx.session.isStudent === "yes") {

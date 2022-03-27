@@ -16,7 +16,8 @@ composer.on("text", async (ctx) => {
   let users = await axios.get(URL).then((res) => {
     return res.data;
   });
-  if (ctx.session?.replyId) {
+  if (ctx.session.replyId) {
+    // console.log(ctx.session.replyId)
     // console.log(ctx.session.replyId);
     // console.log(ctx.message.text)
     // ctx.session.answer = ctx.message.text
