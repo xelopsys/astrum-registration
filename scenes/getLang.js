@@ -4,9 +4,9 @@ const { session } = require("telegraf/session");
 const Scene = require("telegraf/scenes/base");
 const { leave } = Stage;
 const stage = new Stage();
-const axios = require("axios/index.js");
-const URL = data.url;
-const { composer, middleware } = require("../core/bot.js");
+// const axios = require('axios');
+// const URL = data.url;
+// const { composer, middleware } = require("../core/bot.js");
 
 const getLang = new Scene("getLang");
 
