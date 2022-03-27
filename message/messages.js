@@ -1,23 +1,23 @@
 // const { session } = require('telegraf')
 const { composer, middleware } = require("../core/bot");
 const data = require("../core/data");
-const UserTg = require('../database/user.model.js');
+const UserTg = require("../database/user.model.js");
 const { session } = require("telegraf/session");
-const express = require('express');
-const axios = require('axios');
+const express = require("express");
+const axios = require("axios");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const URL = data.url
-
-
+const URL = data.url;
 
 let user_id;
 composer.on("text", async (ctx) => {
-  let users = await axios.get(URL).then(res => { return res.data })
+  let users = await axios.get(URL).then((res) => {
+    return res.data;
+  });
   if (ctx.session?.replyId) {
-    console.log(ctx.session.replyId)
+    console.log(ctx.session.replyId);
     // console.log(ctx.message.text)
     // ctx.session.answer = ctx.message.text
     // for (let i in data.data) {
@@ -44,24 +44,23 @@ composer.on("text", async (ctx) => {
     // console.log(ctx.sesion.answer)
 
     try {
-
-      await UserTg.findOneAndUpdate({ user_id: ctx.session.replyId }, { $addToSet: { answer: ctx.message.text } }, { new: true, upsert: true })
-      console.log('success')
+      await UserTg.findOneAndUpdate(
+        { user_id: ctx.session.replyId },
+        { $addToSet: { answer: ctx.message.text } },
+        { new: true, upsert: true }
+      );
+      console.log("success");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
 
-    await ctx.telegram
-      .sendMessage(
-        ctx.session.replyId,
-        `Hi ${ctx.from.username} ${ctx.chat.id}👋! \nHere is reply to your message: \n<i>${ctx.message.text}</i>`,
-        {
-          parse_mode: "HTML",
-        }
-      )
-
-
-
+    await ctx.telegram.sendMessage(
+      ctx.session.replyId,
+      `Hi ${ctx.from.username} ${ctx.chat.id}👋! \nHere is reply to your message: \n<i>${ctx.message.text}</i>`,
+      {
+        parse_mode: "HTML",
+      }
+    );
 
     ctx.session.replyId = null;
     return;
@@ -69,7 +68,6 @@ composer.on("text", async (ctx) => {
 
   user_id = ctx.from.id;
   // let username = ctx.from.username;
-
 });
 
 composer.action(/reply_(.+)/, async (ctx) => {
@@ -84,9 +82,7 @@ composer.action(/reply_(.+)/, async (ctx) => {
   await ctx.reply(
     `Send me your answer...${ctx.session.replyId} ${ctx.chat.message}Your answer will be after <i>'Hi there 👋! You gave a '</i>`
   );
-  return ctx.editMessageText('asdsadsd')
+  return ctx.editMessageText("asdsadsd");
 });
-
-
 
 middleware(composer);

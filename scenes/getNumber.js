@@ -26,11 +26,11 @@ getNumber.on("contact", async (ctx) => {
     await ctx.replyWithHTML("Please, send your full name, name and surname");
   }
 
-  if (ctx.message.text === '/start') {
+  if (ctx.message.text === "/start") {
     await ctx.reply(
       `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
-      `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
-      `Please, choose tha language to continue`,
+        `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
+        `Please, choose tha language to continue`,
       {
         reply_markup: {
           keyboard: [["🇺🇿O’zbekcha", "🇷🇺Русский", "🇬🇧English"]],
@@ -40,10 +40,9 @@ getNumber.on("contact", async (ctx) => {
       }
     );
     // console.log(ctx.chat.id)
-    await ctx.scene.leave('getNumber')
+    await ctx.scene.leave("getNumber");
     await ctx.scene.enter("getLang");
   }
-
 
   await ctx.scene.leave("getNumber");
   await ctx.scene.enter("getName");

@@ -14,9 +14,7 @@ const getBack = new Scene("getBack");
 getBack.hears(["back", "orqaga", "назад", "menu"], async (ctx) => {
   ctx.session.back = ctx.message.text;
 
-
   //english****
-
 
   if (ctx.session.lang === "🇬🇧English") {
     if (ctx.session.isStudent === "yes") {
@@ -49,7 +47,6 @@ getBack.hears(["back", "orqaga", "назад", "menu"], async (ctx) => {
   }
 
   //uzbek****
-
 
   if (ctx.session.lang === "🇺🇿O’zbekcha") {
     if (ctx.session.isStudent === "ha") {
@@ -99,10 +96,7 @@ getBack.hears(["back", "orqaga", "назад", "menu"], async (ctx) => {
     if (ctx.session.isStudent === "нет") {
       await ctx.reply("что вас интересует?", {
         reply_markup: {
-          keyboard: [
-            ["🖥об образовании", "💸об оплате курсов"],
-            ["другое"],
-          ],
+          keyboard: [["🖥об образовании", "💸об оплате курсов"], ["другое"]],
           resize_keyboard: true,
           one_time_keyboard: true,
         },
@@ -110,7 +104,6 @@ getBack.hears(["back", "orqaga", "назад", "menu"], async (ctx) => {
     }
     await ctx.scene.leave("getBack");
     await ctx.scene.enter("getQuestionType");
-
   }
 });
 

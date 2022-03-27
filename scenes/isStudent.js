@@ -122,6 +122,4 @@ isStudent.hears("no", async (ctx) => {
   await ctx.scene.enter("getQuestionType");
 });
 
-
-
 module.exports = isStudent;

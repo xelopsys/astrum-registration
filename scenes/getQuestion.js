@@ -13,9 +13,7 @@ const getQuestion = new Scene("getQuestion");
 getQuestion.hears(["back", "orqaga", "назад"], async (ctx) => {
   ctx.session.back = ctx.message.text;
 
-
   //english****
-
 
   if (ctx.session.lang === "🇬🇧English") {
     if (ctx.session.isStudent === "yes") {
@@ -48,7 +46,6 @@ getQuestion.hears(["back", "orqaga", "назад"], async (ctx) => {
   }
 
   //uzbek****
-
 
   if (ctx.session.lang === "🇺🇿O’zbekcha") {
     if (ctx.session.isStudent === "ha") {
@@ -98,10 +95,7 @@ getQuestion.hears(["back", "orqaga", "назад"], async (ctx) => {
     if (ctx.session.isStudent === "нет") {
       await ctx.reply("что вас интересует?", {
         reply_markup: {
-          keyboard: [
-            ["🖥об образовании", "💸об оплате курсов"],
-            ["другое"],
-          ],
+          keyboard: [["🖥об образовании", "💸об оплате курсов"], ["другое"]],
           resize_keyboard: true,
           one_time_keyboard: true,
         },
@@ -112,14 +106,10 @@ getQuestion.hears(["back", "orqaga", "назад"], async (ctx) => {
   }
 });
 
-
 //********* */
 
-
 getQuestion.action("back", async (ctx) => {
-
   //english****
-
 
   if (ctx.session.lang === "🇬🇧English") {
     if (ctx.session.isStudent === "yes") {
@@ -152,7 +142,6 @@ getQuestion.action("back", async (ctx) => {
   }
 
   //uzbek****
-
 
   if (ctx.session.lang === "🇺🇿O’zbekcha") {
     if (ctx.session.isStudent === "ha") {
@@ -202,10 +191,7 @@ getQuestion.action("back", async (ctx) => {
     if (ctx.session.isStudent === "нет") {
       await ctx.reply("что вас интересует?", {
         reply_markup: {
-          keyboard: [
-            ["🖥об образовании", "💸об оплате курсов"],
-            ["другое"],
-          ],
+          keyboard: [["🖥об образовании", "💸об оплате курсов"], ["другое"]],
           resize_keyboard: true,
           one_time_keyboard: true,
         },
@@ -216,11 +202,7 @@ getQuestion.action("back", async (ctx) => {
   }
 });
 
-
-
-
 //********* */
-
 
 getQuestion.on("text", async (ctx) => {
   // if (ctx.message.text === "◀️ Назад") {
@@ -243,47 +225,56 @@ getQuestion.on("text", async (ctx) => {
     ctx.message.text !== "/start"
   ) {
     if (ctx.session.lang === "🇬🇧English") {
-      ctx.reply(`Every information, that is sent, is correct?\n\n` +
-        `Name: ${ctx.session.name}\n` +
-        `Type of question: ${ctx.session.questionType}\n` +
-        `Your question: ${ctx.session.question}`, {
-        reply_markup: {
-          keyboard: [["yes", "back"]],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        },
-      });
+      ctx.reply(
+        `Every information, that is sent, is correct?\n\n` +
+          `Name: ${ctx.session.name}\n` +
+          `Type of question: ${ctx.session.questionType}\n` +
+          `Your question: ${ctx.session.question}`,
+        {
+          reply_markup: {
+            keyboard: [["yes", "back"]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+        }
+      );
     }
     if (ctx.session.lang === "🇷🇺Русский") {
-      ctx.reply(`Каждая отправляемая информация верна?\n\n` +
-        `Имя: ${ctx.session.name}\n` +
-        `Тип вопроса: ${ctx.session.questionType}\n` +
-        `Ваш вопрос: ${ctx.session.question}`, {
-        reply_markup: {
-          keyboard: [["да", "назад"]],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        },
-      });
+      ctx.reply(
+        `Каждая отправляемая информация верна?\n\n` +
+          `Имя: ${ctx.session.name}\n` +
+          `Тип вопроса: ${ctx.session.questionType}\n` +
+          `Ваш вопрос: ${ctx.session.question}`,
+        {
+          reply_markup: {
+            keyboard: [["да", "назад"]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+        }
+      );
     }
     if (ctx.session.lang === "🇺🇿O’zbekcha") {
-      ctx.reply(`Har bir yuborilgan ma'lumot to'g'rimi?\n\n` +
-        `Ism: ${ctx.session.name}\n` +
-        `Savol turi: ${ctx.session.questionType}\n` +
-        `Savolingiz: ${ctx.session.question}`, {
-        reply_markup: {
-          keyboard: [["ha", "orqaga"]],
-          resize_keyboard: true,
-          one_time_keyboard: true,
-        },
-      });
+      ctx.reply(
+        `Har bir yuborilgan ma'lumot to'g'rimi?\n\n` +
+          `Ism: ${ctx.session.name}\n` +
+          `Savol turi: ${ctx.session.questionType}\n` +
+          `Savolingiz: ${ctx.session.question}`,
+        {
+          reply_markup: {
+            keyboard: [["ha", "orqaga"]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+        }
+      );
     }
 
-    if (ctx.message.text === '/start') {
+    if (ctx.message.text === "/start") {
       await ctx.reply(
         `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
-        `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
-        `Please, choose tha language to continue`,
+          `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
+          `Please, choose tha language to continue`,
         {
           reply_markup: {
             keyboard: [["🇺🇿O’zbekcha", "🇷🇺Русский", "🇬🇧English"]],
@@ -293,10 +284,9 @@ getQuestion.on("text", async (ctx) => {
         }
       );
       // console.log(ctx.chat.id)
-      await ctx.scene.leave('getQuestion')
+      await ctx.scene.leave("getQuestion");
       await ctx.scene.enter("getLang");
     }
-
 
     // console.log(ctx.session.number)
     await ctx.scene.leave("getQuestion");

@@ -38,8 +38,7 @@ const userSchema = new mongoose.Schema({
   answer: {
     type: Array,
     required: true,
-  }
-
+  },
 });
 userSchema.plugin(uniqueValidator);
 

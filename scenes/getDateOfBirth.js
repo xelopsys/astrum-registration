@@ -39,6 +39,4 @@ getDateOfBirth.hears(/^[0-9]{4}$/, async (ctx) => {
   await ctx.scene.enter("isStudent");
 });
 
-
-
 module.exports = getDateOfBirth;

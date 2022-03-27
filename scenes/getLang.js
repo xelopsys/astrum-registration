@@ -1,11 +1,11 @@
-const data = require("../core/data.js")
+const data = require("../core/data.js");
 const Stage = require("telegraf/stage");
 const { session } = require("telegraf/session");
 const Scene = require("telegraf/scenes/base");
 const { leave } = Stage;
 const stage = new Stage();
 const axios = require("axios/index.js");
-const URL = data.url
+const URL = data.url;
 const { composer, middleware } = require("../core/bot.js");
 
 const getLang = new Scene("getLang");
@@ -13,8 +13,6 @@ const getLang = new Scene("getLang");
 getLang.on("text", async (ctx) => {
   ctx.session.lang = ctx.message.text;
   ctx.session.user_id = ctx.from.id;
-
-
 
   // console.log(ctx.session.user_id)
   if (ctx.session.lang === "🇺🇿O’zbekcha") {
@@ -25,7 +23,6 @@ getLang.on("text", async (ctx) => {
         one_time_keyboard: true,
       },
     });
-
   }
   if (ctx.session.lang === "🇷🇺Русский") {
     await ctx.reply("Пожалуйста, отправьте свой контактный номер📱", {
@@ -35,7 +32,6 @@ getLang.on("text", async (ctx) => {
         one_time_keyboard: true,
       },
     });
-
   }
   if (ctx.session.lang === "🇬🇧English") {
     await ctx.reply("Please, send your contact number📱", {
@@ -45,14 +41,9 @@ getLang.on("text", async (ctx) => {
         one_time_keyboard: true,
       },
     });
-
   }
   await ctx.scene.leave("getLang");
   await ctx.scene.enter("getNumber");
-
-
-
-
 
   // if (data.data[i].user_id === ctx.from.id) {
   //   if (data.data[i].language === "🇬🇧English") {
@@ -85,11 +76,9 @@ getLang.on("text", async (ctx) => {
 
   //     }
 
-
   //   }
 
   //   //uzbek****
-
 
   //   if (data.data[i].language === "🇺🇿O’zbekcha") {
   //     if (data.data[i].isStudent === true) {
@@ -103,7 +92,6 @@ getLang.on("text", async (ctx) => {
   //           one_time_keyboard: true,
   //         },
   //       });
-
 
   //     }
   //     if (data.data[i].isStudent === false) {
@@ -119,9 +107,7 @@ getLang.on("text", async (ctx) => {
   //         },
   //       });
 
-
   //     }
-
 
   //   }
 
@@ -140,7 +126,6 @@ getLang.on("text", async (ctx) => {
   //         },
   //       });
 
-
   //     }
   //     if (data.data[i].isStudent === false) {
   //       await ctx.reply("что вас интересует?", {
@@ -157,14 +142,9 @@ getLang.on("text", async (ctx) => {
 
   //   }
 
-
   // }
 
-
   // }
-
-
-
 });
 
 module.exports = getLang;

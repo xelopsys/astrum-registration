@@ -20,5 +20,4 @@ module.exports = {
   checkAll,
   getBack,
   sendMessageTo,
-
 };
