@@ -60,7 +60,7 @@ getQuestionType.on("text", async (ctx) => {
     }
 
     if (ctx.session.lang === "🇺🇿O’zbekcha") {
-      if (ctx.session.questionType === "🖥O`qish haqida") {
+      if (ctx.session.questionType === "🖥O'qish haqida") {
         await ctx.reply("O`qish haqida qanday savolingiz bor?", {
           reply_markup: {
             keyboard: [["orqaga"]],
@@ -69,7 +69,7 @@ getQuestionType.on("text", async (ctx) => {
           },
         });
       }
-      if (ctx.session.questionType === "💸to`lovlar haqida") {
+      if (ctx.session.questionType === "💸to'lovlar haqida") {
         await ctx.reply("To`lovlar masalasida qanday savolingiz bor", {
           reply_markup: {
             keyboard: [["orqaga"]],
@@ -149,22 +149,28 @@ getQuestionType.on("text", async (ctx) => {
   }
 
   if (
-    ctx.session.isStudent === "yo`q" ||
+    ctx.session.isStudent === "yo'q" ||
     ctx.session.isStudent === "no" ||
     ctx.session.isStudent === "нет"
   ) {
     if (ctx.session.lang === "🇷🇺Русский") {
       if (ctx.session.questionType === "🖥об образовании") {
         await ctx.reply("О каком курсе вы хотите получить информацию?", {
+          parse_mode: 'HTML',
           reply_markup: {
-            keyboard: [
-              ["Fullstack", "Data Science"],
-              ["Software Engineering"],
-              ["назад"],
+            inline_keyboard: [
+              [
+                { text: 'Fullstack', url: 'https://astrum.uz/subjects/full-stack' },
+                { text: 'Data Science', url: 'https://astrum.uz/subjects/data-science' }
+              ],
+              [
+                { text: 'Software Engineering', url: 'https://astrum.uz/subjects/software-engineering' }
+              ],
+              [{ text: "назад", callback_data: "back" }]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
-          },
+          }
         });
         await ctx.scene.leave("getQuestionType");
         // await ctx.scene.enter("getQuestion");
@@ -195,20 +201,26 @@ getQuestionType.on("text", async (ctx) => {
     }
 
     if (ctx.session.lang === "🇺🇿O’zbekcha") {
-      if (ctx.session.questionType === "🖥o`quv kurslari haqida") {
+      if (ctx.session.questionType === "🖥o'quv kurslari haqida") {
         await ctx.reply("Qaysi yo`nalish haqida ma'lumot olmoqchisiz?", {
+          parse_mode: 'HTML',
           reply_markup: {
-            keyboard: [
-              ["Fullstack", "Data Science"],
-              ["Software Engineering"],
-              ["orqaga"],
+            inline_keyboard: [
+              [
+                { text: 'Fullstack', url: 'https://astrum.uz/subjects/full-stack' },
+                { text: 'Data Science', url: 'https://astrum.uz/subjects/data-science' }
+              ],
+              [
+                { text: 'Software Engineering', url: 'https://astrum.uz/subjects/software-engineering' }
+              ],
+              [{ text: "orqaga", callback_data: "back" }]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
           },
         });
       }
-      if (ctx.session.questionType === "💸o`quv kurslari to`lovi haqida") {
+      if (ctx.session.questionType === "💸o'quv kurslari to`lovi haqida") {
         await ctx.reply("To`lovlar masalasida qanday savolingiz bor", {
           reply_markup: {
             keyboard: [["orqaga"]],
@@ -235,11 +247,17 @@ getQuestionType.on("text", async (ctx) => {
     if (ctx.session.lang === "🇬🇧English") {
       if (ctx.session.questionType === "🖥about education courses") {
         await ctx.reply("About what course you want to get information?", {
+          parse_mode: 'HTML',
           reply_markup: {
-            keyboard: [
-              ["Fullstack", "Data Science"],
-              ["Software Engineering"],
-              ["back"],
+            inline_keyboard: [
+              [
+                { text: 'Fullstack', url: 'https://astrum.uz/subjects/full-stack' },
+                { text: 'Data Science', url: 'https://astrum.uz/subjects/data-science' }
+              ],
+              [
+                { text: 'Software Engineering', url: 'https://astrum.uz/subjects/software-engineering' }
+              ],
+              [{ text: "back", callback_data: "back" }]
             ],
             resize_keyboard: true,
             one_time_keyboard: true,
@@ -269,26 +287,36 @@ getQuestionType.on("text", async (ctx) => {
         await ctx.scene.enter("getQuestion");
       }
     }
+    if (ctx.message.text === '/start') {
+      await ctx.reply(
+        `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
+        `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
+        `Please, choose tha language to continue`,
+        {
+          reply_markup: {
+            keyboard: [["🇺🇿O’zbekcha", "🇷🇺Русский", "🇬🇧English"]],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+          },
+        }
+      );
+      // console.log(ctx.chat.id)
+      await ctx.scene.leave('getQuestionType')
+      await ctx.scene.enter("getLang");
+    }
+
+
     await ctx.scene.leave("getQuestionType");
     // await ctx.scene.enter("getBack");
     await ctx.scene.enter("getQuestion");
   }
 });
 
-// getQuestionType.on('text', async (ctx) => {
-//     ctx.session.number = ctx.message.contact.phone_number
-//     console.log(ctx.session.number)
-//     if (ctx.session.lang == 'рус') {
-//         await ctx.replyWithHTML('Please send me ur FIO rus')
-//         console.log(ctx.session.lang)
-//     }
-//     if (ctx.session.lang == 'UZB') {
-//         await ctx.replyWithHTML('please send me ur FIO uzb')
-//     }
-//     if (ctx.session.lang == 'ENG') {
-//         await ctx.replyWithHTML('Please send me ur FIO ENG')
-//     }
 
-// })
+
+
+
+
+
 
 module.exports = getQuestionType;

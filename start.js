@@ -5,8 +5,14 @@ const { session } = require("telegraf/session");
 const Scene = require("telegraf/scenes/base");
 const { leave } = Stage;
 const stage = new Stage();
+const axios = require('axios')
+// const express = require('express');
+// const app = express();
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+const URL = data.url
 const { composer, middleware } = require("./core/bot.js");
-// const bot = new telegraf(data.token);
+
 const {
   getLang,
   getNumber,
@@ -19,6 +25,7 @@ const {
   getBack,
   sendMessageTo,
 } = require("./scenes/index.js");
+
 
 stage.register(
   getLang,
@@ -43,6 +50,7 @@ composer.use(stage.middleware());
 // });
 
 composer.start(async (ctx) => {
+
   await ctx.reply(
     `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
     `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
@@ -54,14 +62,18 @@ composer.start(async (ctx) => {
         one_time_keyboard: true,
       },
     }
-  ).then(r => console.log(r));
-  console.log(ctx.chat.id)
+  );
   await ctx.scene.enter("getLang");
+
+
 });
 
 // composer.on('text', async (ctx) => {
 //   await ctx.reply(`Please, to restart bot send command\n` + `/start`)
 // })
-
+// composer.on('text', async (ctx, next) => {
+//   await ctx.reply('message is sent!')
+//   await leave()
+// })
 
 middleware(composer);

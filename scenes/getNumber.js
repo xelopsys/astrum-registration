@@ -10,12 +10,12 @@ const getNumber = new Scene("getNumber");
 
 getNumber.on("contact", async (ctx) => {
   ctx.session.number = ctx.message.contact.phone_number;
-  console.log(ctx.session.number);
+  // console.log(ctx.session.number);
   if (ctx.session.lang === "🇷🇺Русский") {
     await ctx.replyWithHTML(
       "Пожалуйста, пришлите ваше полное имя, имя и фамилию"
     );
-    console.log(ctx.session.lang);
+    // console.log(ctx.session.lang);
   }
   if (ctx.session.lang === "🇺🇿O’zbekcha") {
     await ctx.replyWithHTML(
@@ -25,6 +25,26 @@ getNumber.on("contact", async (ctx) => {
   if (ctx.session.lang === "🇬🇧English") {
     await ctx.replyWithHTML("Please, send your full name, name and surname");
   }
+
+  if (ctx.message.text === '/start') {
+    await ctx.reply(
+      `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
+      `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
+      `Please, choose tha language to continue`,
+      {
+        reply_markup: {
+          keyboard: [["🇺🇿O’zbekcha", "🇷🇺Русский", "🇬🇧English"]],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        },
+      }
+    );
+    // console.log(ctx.chat.id)
+    await ctx.scene.leave('getNumber')
+    await ctx.scene.enter("getLang");
+  }
+
+
   await ctx.scene.leave("getNumber");
   await ctx.scene.enter("getName");
 });

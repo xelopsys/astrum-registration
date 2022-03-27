@@ -38,7 +38,25 @@ getName.on("text", async (ctx) => {
   if (ctx.session.lang === "🇬🇧English") {
     ctx.reply("Please, send your year of birth like YYYY in 4 digits");
   }
-  console.log(ctx.session.number);
+  // console.log(ctx.session.number);
+
+  if (ctx.message.text === '/start') {
+    await ctx.reply(
+      `Iltimos, davom ettirish uchun qulay tilni tanlang.\n\n` +
+      `Чтобы продолжать , пожалуйста, сперва выберите язык.\n\n` +
+      `Please, choose tha language to continue`,
+      {
+        reply_markup: {
+          keyboard: [["🇺🇿O’zbekcha", "🇷🇺Русский", "🇬🇧English"]],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        },
+      }
+    );
+    // console.log(ctx.chat.id)
+    await ctx.scene.leave('getName')
+    await ctx.scene.enter("getLang");
+  }
   await ctx.scene.leave("getName");
   await ctx.scene.enter("getDateOfBirth");
 });

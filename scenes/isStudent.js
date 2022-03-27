@@ -23,7 +23,7 @@ const isStudent = new Scene("isStudent");
 // 🗣
 isStudent.hears("да", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("что вы ищете?", {
     reply_markup: {
       keyboard: [
@@ -39,7 +39,7 @@ isStudent.hears("да", async (ctx) => {
 });
 isStudent.hears("нет", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("что вас интересует?", {
     reply_markup: {
       keyboard: [["🖥об образовании", "💸об оплате курсов"], ["другое"]],
@@ -54,11 +54,11 @@ isStudent.hears("нет", async (ctx) => {
 //******************************UZ */
 isStudent.hears("ha", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("nimani izlayapsiz?", {
     reply_markup: {
       keyboard: [
-        ["🖥O`qish haqida", "💸to`lovlar haqida"],
+        ["🖥O'qish haqida", "💸to'lovlar haqida"],
         ["boshqa", "taklif va shikoyat"],
       ],
       resize_keyboard: true,
@@ -70,12 +70,12 @@ isStudent.hears("ha", async (ctx) => {
 });
 isStudent.hears("yo'q", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("nima sizni qiziqtiryapti?", {
     reply_markup: {
       keyboard: [
-        ["🖥o`quv kurslari haqida"],
-        ["💸o`quv kurslari to`lovi haqida"],
+        ["🖥o'quv kurslari haqida"],
+        ["💸o'quv kurslari to`lovi haqida"],
         ["boshqa"],
       ],
       resize_keyboard: true,
@@ -90,7 +90,7 @@ isStudent.hears("yo'q", async (ctx) => {
 
 isStudent.hears("yes", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("what you are seeking for?", {
     reply_markup: {
       keyboard: [
@@ -106,7 +106,7 @@ isStudent.hears("yes", async (ctx) => {
 });
 isStudent.hears("no", async (ctx) => {
   ctx.session.isStudent = ctx.message.text;
-  console.log(ctx.session.isStudent);
+  // console.log(ctx.session.isStudent);
   await ctx.reply("what you are interested in?", {
     reply_markup: {
       keyboard: [
@@ -122,33 +122,6 @@ isStudent.hears("no", async (ctx) => {
   await ctx.scene.enter("getQuestionType");
 });
 
-// isStudent.on("text", async (ctx) => {
-//     // if (ctx.message.text === "◀️ Назад") {
-//     //     return ctx.reply(
-//     //         "Вы уже вернулись в самое начало. Введите, пожалуйста, свое имя"
-//     //     );
-//     // }
 
-//     if (ctx.session.isStudent === 'YES-RU' || ctx.session.isStudent === 'NO-RU') {
-//         ctx.reply(
-//             "Введидте год рождения ENG example dd/mm/yyyy"
-//             // {
-//             //     reply_markup: {
-//             //         keyboard: [["◀️ Назад"]],
-//             //         resize_keyboard: true,
-//             //         one_time_keyboard: true,
-//             //     },
-//             // }
-//         );
-//     }
-//     if (ctx.session.lang === 'рус') {
-//         ctx.reply("Введидте год рождения рус example dd/mm/yyyy");
-//     }
-//     if (ctx.session.lang === 'UZB') {
-//         ctx.reply("Введидте год рождения UZB example dd/mm/yyyy");
-//     }
-//     // console.log(ctx.session.number)
-
-// });
 
 module.exports = isStudent;

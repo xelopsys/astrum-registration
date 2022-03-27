@@ -39,26 +39,6 @@ getDateOfBirth.hears(/^[0-9]{4}$/, async (ctx) => {
   await ctx.scene.enter("isStudent");
 });
 
-// getDateOfBirth.hears("◀️ Назад", async (ctx) => {
-//     ctx.reply("Введите фамилию, имя и отчество", {
-//         reply_markup: { remove_keyboard: true },
-//     });
-//     await ctx.scene.leave("getDateOfBirth");
-//     ctx.scene.enter("getName");
-// });
 
-// getDateOfBirth.on("text", async (ctx) => {
-//     ctx.reply(
-//         "Введидте только год рождения в формате 1990" +
-//         `\n\nУже введенные данные:\nФ.И.О: ${ctx.session.name}`,
-//         {
-//             reply_markup: {
-//                 keyboard: [["◀️ Назад", "❌ Стереть все"]],
-//                 resize_keyboard: true,
-//                 one_time_keyboard: true,
-//             },
-//         }
-//     );
-// });
 
 module.exports = getDateOfBirth;

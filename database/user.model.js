@@ -4,6 +4,8 @@ const uniqueValidator = require("mongoose-unique-validator");
 const userSchema = new mongoose.Schema({
   user_id: {
     type: Number,
+    required: true,
+    // unique: true,
   },
   language: {
     type: String,
@@ -26,11 +28,15 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   questionType: {
-    type: String,
+    type: Array,
     required: true,
   },
   question: {
-    type: String,
+    type: Array,
+    required: true,
+  },
+  answer: {
+    type: Array,
     required: true,
   }
 

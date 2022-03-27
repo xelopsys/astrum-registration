@@ -11,7 +11,7 @@ const { Markup, Extra } = require("telegraf");
 
 const getBack = new Scene("getBack");
 
-getBack.hears(["back", "orqaga", "назад"], async (ctx) => {
+getBack.hears(["back", "orqaga", "назад", "menu"], async (ctx) => {
   ctx.session.back = ctx.message.text;
 
 
@@ -56,7 +56,7 @@ getBack.hears(["back", "orqaga", "назад"], async (ctx) => {
       await ctx.reply("nimani izlayapsiz?", {
         reply_markup: {
           keyboard: [
-            ["🖥O`qish haqida", "💸to`lovlar haqida"],
+            ["🖥O'qish haqida", "💸to'lovlar haqida"],
             ["boshqa", "taklif va shikoyat"],
           ],
           resize_keyboard: true,
@@ -68,8 +68,8 @@ getBack.hears(["back", "orqaga", "назад"], async (ctx) => {
       await ctx.reply("nima sizni qiziqtiryapti?", {
         reply_markup: {
           keyboard: [
-            ["🖥o`quv kurslari haqida"],
-            ["💸o`quv kurslari to`lovi haqida"],
+            ["🖥o'quv kurslari haqida"],
+            ["💸o'quv kurslari to`lovi haqida"],
             ["boshqa"],
           ],
           resize_keyboard: true,

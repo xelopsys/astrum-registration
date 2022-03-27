@@ -4,10 +4,12 @@ const { session } = require("telegraf/session");
 const Scene = require("telegraf/scenes/base");
 const { leave } = Stage;
 const { composer, middleware } = require("../core/bot");
-// const data = require("../core/data");
-// const stage = new Stage();
-// const { composer, middleware } = require('../bot.js')
-// const bot = new telegraf(data.token);
+const axios = require('axios')
+const express = require('express');
+const app = express();
+const URL = data.url
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const UserTg = require('../database/user.model.js');
 
@@ -28,18 +30,21 @@ const main = async () => {
             console.log("Connected to db");
         });
 
-    // checkAll.on('text', async (ctx) => {
-    //     if (ctx.session.isStudent === 'YES-RU' || ctx.session.isStudent === 'YES-UZ' || ctx.session.isStudent === 'YES-EN') {
-    //         await UserTg.create({ language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true });
-    //     }
-    //     if (ctx.session.isStudent === 'NO-RU' || ctx.session.isStudent === 'NO-UZ' || ctx.session.isStudent === 'NO-EN') {
-    //         await UserTg.create({ language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false });
-    //     }
-    //     await ctx.reply('thank you')
-    //     await ctx.scene.leave('checkAll')
-    // })
 
-    //************************** */
+    // app.get('/', (req, res) => {
+    //     res.sendFile(__dirname + '/doc/index.html');
+    // })
+    // app.post('/user/create', async (req, res) => {
+    //     const { name, email, dateOfBirth, password } = req.body;
+    //     const hasPassword = await bcrypt.hash(password, 10);
+    //     try {
+    //         const user = await User.create({ name, email, dateOfBirth, password: hasPassword });
+    //         res.json({ data: user });
+    //     } catch (err) {
+    //         console.log(err.message);
+    //         res.status(501).json({ error: err })
+    //     }
+    // })
 
 
     checkAll.hears(["back", "orqaga", "назад"], async (ctx) => {
@@ -47,7 +52,12 @@ const main = async () => {
 
 
         //english****
-
+        try {
+            await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, questionType: ctx.session.questionType, question: ctx.session.question });
+            console.log('updated')
+        } catch (err) {
+            console.log(err.message)
+        }
 
         if (ctx.session.lang === "🇬🇧English") {
             if (ctx.session.isStudent === "yes") {
@@ -87,7 +97,7 @@ const main = async () => {
                 await ctx.reply("nimani izlayapsiz?", {
                     reply_markup: {
                         keyboard: [
-                            ["🖥O`qish haqida", "💸to`lovlar haqida"],
+                            ["🖥O'qish haqida", "💸to'lovlar haqida"],
                             ["boshqa", "taklif va shikoyat"],
                         ],
                         resize_keyboard: true,
@@ -99,8 +109,8 @@ const main = async () => {
                 await ctx.reply("nima sizni qiziqtiryapti?", {
                     reply_markup: {
                         keyboard: [
-                            ["🖥o`quv kurslari haqida"],
-                            ["💸o`quv kurslari to`lovi haqida"],
+                            ["🖥o'quv kurslari haqida"],
+                            ["💸o'quv kurslari to`lovi haqida"],
                             ["boshqa"],
                         ],
                         resize_keyboard: true,
@@ -151,162 +161,201 @@ const main = async () => {
 
 
     checkAll.on('text', async (ctx) => {
-
         ctx.session.done = ctx.message.text
 
 
-        if (ctx.session.done === 'yes') {
-            if (ctx.session.lang === '🇬🇧English') {
-                if (ctx.session.isStudent === 'yes') {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question });
+        // if (ctx.session.lang === '🇷🇺Русский') {
+        //     if (ctx.session.done !== 'да' || ctx.session.done !== '/start' || ctx.session.done !== '/help') {
+        //         await ctx.reply('Пожалуйста, подтвердите свои данные. Oтправлена ли информация правильно?', {
+        //             reply_markup: {
+        //                 keyboard: [["да", "назад"]],
+        //                 resize_keyboard: true,
+        //                 one_time_keyboard: true,
+        //             },
+        //         })
+        //     }
+        // }
+        // if (ctx.session.lang === '🇺🇿O’zbekcha') {
+        //     if (ctx.session.done !== 'ha' || ctx.session.done !== '/start' || ctx.session.done !== '/help') {
+        //         await ctx.reply(`Iltimos, maʼlumotlaringizni tasdiqlang. Yuborilgan ma'lumotlar to'g'rimi?`, {
+        //             reply_markup: {
+        //                 keyboard: [["ha", "orqaga"]],
+        //                 resize_keyboard: true,
+        //                 one_time_keyboard: true,
+        //             },
+        //         })
+        //     }
+        // }
+        // if (ctx.session.lang === '🇬🇧English') {
+        //     if (ctx.session.done !== 'yes' || ctx.session.done !== '/start' || ctx.session.done !== '/help') {
+        //         await ctx.reply(`Please confirm your data. Is sent information correct?`, {
+        //             reply_markup: {
+        //                 keyboard: [["yes", "back"]],
+        //                 resize_keyboard: true,
+        //                 one_time_keyboard: true,
+        //             },
+        //         })
+        //     }
+        // }
+
+        // ****
+
+        let userData = await axios.get(URL).then(res => { return res.data })
+
+        if (ctx.message.text !== '/start') {
+
+            if (ctx.session.done === 'yes') {
+                if (ctx.session.lang === '🇬🇧English') {
+                    if (ctx.session.isStudent === 'yes') {
+
+
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+
+                        console.log('do not hope')
+                    }
+
+                    if (ctx.session.isStudent === 'no') {
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            // console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            // console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+                    }
+                    await ctx.reply(`Press the button 'Send information', to send your question to the admin`, {
+                        reply_markup: {
+                            keyboard: [
+                                ["Send information"],
+                            ],
+                            resize_keyboard: true,
+                            one_time_keyboard: true,
+                        },
+                    })
                 }
-                if (ctx.session.isStudent === 'no') {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question });
+                await ctx.scene.leave('checkAll')
+                await ctx.scene.enter('sendMessageTo')
+            }
+
+
+            if (ctx.session.done === 'ha') {
+                if (ctx.session.lang === '🇺🇿O’zbekcha') {
+                    if (ctx.session.isStudent === 'ha') {
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            // console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            // console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+                    }
+                    if (ctx.session.isStudent === "yo'q") {
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            // console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            // console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+                    }
+                    await ctx.reply(`Savolingizni adminga jo'natish uchun, iltimos 'Ma'lumotlarni jo'natish' tugmasini bosing`, {
+                        reply_markup: {
+                            keyboard: [
+                                ["Ma'lumotlarni jo'natish"],
+                            ],
+                            resize_keyboard: true,
+                            one_time_keyboard: true,
+                        },
+                    })
                 }
-                await ctx.reply(`Press the button 'Send information', to send your question to the admin`, {
-                    reply_markup: {
-                        keyboard: [
-                            ["Send information"],
-                        ],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
+                await ctx.scene.leave('checkAll')
+                await ctx.scene.enter('sendMessageTo')
             }
-            await ctx.scene.leave('checkAll')
-            await ctx.scene.enter('sendMessageTo')
-        }
 
 
-        if (ctx.session.done === 'ha') {
-            if (ctx.session.lang === '🇺🇿O’zbekcha') {
-                if (ctx.session.isStudent === 'ha') {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question });
+
+            if (ctx.session.done === 'да') {
+                if (ctx.session.lang === '🇷🇺Русский') {
+                    if (ctx.session.isStudent === 'да') {
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            // console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            // console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+                    }
+                    if (ctx.session.isStudent === "нет") {
+                        try {
+                            for (let key of userData.data) {
+                                if (key["user_id"] !== ctx.from.id) {
+                                    await UserTg.create({ user_id: ctx.session.user_id, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question, answer: "text", });
+                                }
+                            }
+                            // console.log('created')
+                            let user = await UserTg.findOneAndUpdate({ user_id: ctx.session.user_id, name: ctx.session.name, }, { $addToSet: { questionType: ctx.session.questionType, question: ctx.session.question, answer: "text" } }, { new: true, upsert: true });
+                            // console.log('updated')
+                        } catch (err) {
+                            console.log(err.message)
+                        }
+                    }
+                    await ctx.reply(`Нажмите кнопку «Отправить данные», чтобы отправить свой вопрос администратору`, {
+                        reply_markup: {
+                            keyboard: [
+                                ["Отправить данные"],
+                            ],
+                            resize_keyboard: true,
+                            one_time_keyboard: true,
+                        },
+                    })
                 }
-                if (ctx.session.isStudent === "yo'q") {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question });
-                }
-                await ctx.reply(`Savolingizni adminga jo'natish uchun, iltimos 'Ma'lumotlarni jo'natish' tugmasini bosing`, {
-                    reply_markup: {
-                        keyboard: [
-                            ["Ma'lumotlarni jo'natish"],
-                        ],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
-            }
-            await ctx.scene.leave('checkAll')
-            await ctx.scene.enter('sendMessageTo')
-        }
 
 
-
-        if (ctx.session.done === 'да') {
-            if (ctx.session.lang === '🇷🇺Русский') {
-                if (ctx.session.isStudent === 'да') {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: true, questionType: ctx.session.questionType, question: ctx.session.question });
-                }
-                if (ctx.session.isStudent === "нет") {
-                    await UserTg.create({ user_id: ctx.session.userId, language: ctx.session.lang, phoneNumber: ctx.session.number, name: ctx.session.name, dateOfBirth: ctx.session.year, isStudent: false, questionType: ctx.session.questionType, question: ctx.session.question });
-                }
-                await ctx.reply(`Нажмите кнопку «Отправить данные», чтобы отправить свой вопрос администратору`, {
-                    reply_markup: {
-                        keyboard: [
-                            ["Отправить данные"],
-                        ],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
-            }
-
-            await ctx.scene.leave('checkAll')
-            await ctx.scene.enter('sendMessageTo')
-        }
-        if (ctx.session.lang === '🇷🇺Русский') {
-            if (ctx.session.done !== 'да') {
-                await ctx.reply('Пожалуйста, подтвердите свои данные. Oтправлена ли информация правильно?', {
-                    reply_markup: {
-                        keyboard: [["да", "назад"]],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
+                await ctx.scene.leave('checkAll')
+                await ctx.scene.enter('sendMessageTo')
             }
         }
-        if (ctx.session.lang === '🇺🇿O’zbekcha') {
-            if (ctx.session.done !== 'ha') {
-                await ctx.reply(`Iltimos, maʼlumotlaringizni tasdiqlang. Yuborilgan ma'lumotlar to'g'rimi?`, {
-                    reply_markup: {
-                        keyboard: [["ha", "orqaga"]],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
-            }
-        }
-        if (ctx.session.lang === '🇬🇧English') {
-            if (ctx.session.done !== 'yes') {
-                await ctx.reply(`Please confirm your data. Is sent information correct?`, {
-                    reply_markup: {
-                        keyboard: [["yes", "back"]],
-                        resize_keyboard: true,
-                        one_time_keyboard: true,
-                    },
-                })
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
 
     })
+    app.get('/users', async (req, res) => {
+        const users = await UserTg.find();
 
-    //************************** */
-
-
-    // checkAll.on('text', async (ctx) => {
-
-    //     if (ctx.session.lang === '🇷🇺Русский') {
-    //         await ctx.reply('Пожалуйста, подтвердите свои данные. Oтправлена ли информация правильно?', {
-    //             reply_markup: {
-    //                 keyboard: [["да", "назад"]],
-    //                 resize_keyboard: true,
-    //                 one_time_keyboard: true,
-    //             },
-    //         })
-    //     }
-    //     if (ctx.session.lang === '🇺🇿O’zbekcha') {
-    //         await ctx.reply(`Iltimos, maʼlumotlaringizni tasdiqlang. Yuborilgan ma'lumotlar to'g'rimi?`, {
-    //             reply_markup: {
-    //                 keyboard: [["ha", "orqaga"]],
-    //                 resize_keyboard: true,
-    //                 one_time_keyboard: true,
-    //             },
-    //         })
-    //     }
-    //     if (ctx.session.lang === '🇬🇧English') {
-    //         await ctx.reply(`Please confirm your data. Is sent information correct?`, {
-    //             reply_markup: {
-    //                 keyboard: [["yes", "back"]],
-    //                 resize_keyboard: true,
-    //                 one_time_keyboard: true,
-    //             },
-    //         })
-    //     }
-    // })
-
-
+        res.json({ data: users });
+    })
+    app.listen(data.port, () => {
+        console.log(`App has been started on the port: ${data.port}`);
+    })
 
 
 
