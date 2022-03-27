@@ -17,7 +17,7 @@ composer.on("text", async (ctx) => {
     return res.data;
   });
   if (ctx.session?.replyId) {
-    console.log(ctx.session.replyId);
+    // console.log(ctx.session.replyId);
     // console.log(ctx.message.text)
     // ctx.session.answer = ctx.message.text
     // for (let i in data.data) {
@@ -56,7 +56,7 @@ composer.on("text", async (ctx) => {
 
     await ctx.telegram.sendMessage(
       ctx.session.replyId,
-      `Hi ${ctx.from.username} ${ctx.chat.id}👋! \nHere is reply to your message: \n<i>${ctx.message.text}</i>`,
+      `Hi ${ctx.from.username} 👋! \nHere is answer to your question: \n<i>${ctx.message.text}</i>`,
       {
         parse_mode: "HTML",
       }
@@ -71,6 +71,9 @@ composer.on("text", async (ctx) => {
 });
 
 composer.action(/reply_(.+)/, async (ctx) => {
+  let users_data = await axios.get(URL).then((res) => {
+    return res.data;
+  });
   if (!ctx.session) {
     ctx.session = {};
   }
@@ -80,9 +83,27 @@ composer.action(/reply_(.+)/, async (ctx) => {
   // console.log(data)
   // console.log(data.data.data.user_id)
   await ctx.reply(
-    `Send me your answer...${ctx.session.replyId} ${ctx.chat.message}Your answer will be after <i>'Hi there 👋! You gave a '</i>`
+    `${ctx.from.username}, Пожалуйста, отправьте свой ответ данному "${ctx.session.replyId}" пользователю.`
   );
-  return ctx.editMessageText("asdsadsd");
+
+  await ctx.editMessageText(`
+  ${ctx.from.username} принимал вопрос от пользователя: ${ctx.session.replyId}
+  `)
+  // for (let i in users_data.data) {
+  //   if (users_data.data[i] === ctx.session.replyId) {
+  //     await ctx.editMessageText(
+  //       `ID: ${ctx.session.replyId}\n` +
+  //       `Для кого:` + users_data.data[i].questionType[i] + `\n` +
+  //       `Выбранный язык: ${users_data.data[i].language}\n` +
+  //       `Имя: ${users_data.data[i].name}\n` +
+  //       `Год рождения: ${users_data.data[i].dateOfBirth}\n` +
+  //       `Телефонный номер: ${users_data.data[i].phoneNumber}\n` +
+  //       `Является студентом Astrum: ${users_data.data[i].isStudent}\n` +
+  //       `Вопрос пользователя: ${users_data.data[i].question[i]}\n` +
+  //       `Answer of admin: ${users_data.data[i].answer[i]}`,
+  //     );
+  //   }
+  // }
 });
 
 middleware(composer);
