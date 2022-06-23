@@ -18,7 +18,7 @@ const checkAll = new Scene("checkAll");
 
 const mongoose = require("mongoose");
 const main = async () => {
-  const URI = `mongodb+srv://xelopsys:xelopsys@astrum.dfoka.mongodb.net/astrum?retryWrites=true&w=majority`;
+  const URI = `mongodb+srv://<account>:<password>@astrum.dfoka.mongodb.net/<db>?retryWrites=true&w=majority`;
   await mongoose
     .connect(URI, {
       useNewUrlParser: true,
